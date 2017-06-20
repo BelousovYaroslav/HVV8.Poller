@@ -6,7 +6,6 @@
 package hvv_poller;
 
 import org.apache.log4j.Logger;
-import hvv_graph.HVV_Graph;
 import hvv_poller.storage.HVV_LogsRepacker;
 import hvv_poller.storage.HVV_StorageRepacker;
 import static java.lang.Thread.sleep;
@@ -22,35 +21,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     
     private final HVV_Poller theApp;
     private final LedsControlThread m_LedsThread;
-    public final HVV_Graph m_Graph;
-    
-    class GraphRefreshThread implements Runnable {
-        public boolean m_bContinue;
-        
-        @Override
-        public void run() {
-            m_bContinue = true;
-            do {
-                if( m_Graph != null) {
-                    m_Graph.repaint();
-                }
-                else
-                    m_bContinue = false;
-                
-                try {
-                    sleep( 1000);
-                } catch (InterruptedException ex) {
-                    logger.error( "Caught interrupted exception:", ex);
-                }
-            } while( m_bContinue);
-        }
-        
-        public void start() {
-            new Thread( this).start();
-        }
-    }
-    
-    private GraphRefreshThread m_graphRefreshThread;
+
+    PanelGraph m_panelGraph1;
+    PanelGraph m_panelGraph2;
+    PanelGraph m_panelGraph3;
+    PanelGraph m_panelGraph4;
     
     private final HVV_StorageRepacker m_StorageRepacker;
     
@@ -61,17 +36,16 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
      */
     public HVV_Poller_MainFrame( HVV_Poller app) {
         initComponents();
-        setTitle( "Модуль опроса и накопления данных, v.1.0.0.0, (2016.09.09 13:50)  (C) ФЛАВТ 2016.");
+        
+        setTitle( "Модуль опроса и накопления данных, v.1.0.0.0, (2017.06.16 12:30)  (C) ФЛАВТ 2017.");
         theApp = app;
         
-        m_Graph = new HVV_Graph();
-        pnlGraph.add( m_Graph);
-        m_Graph.setBounds( 0, 0, 580, 260);
-        //m_Graph.setVisible( true);
+        btnLayout1x1.setText( ""); btnLayout1x1.setIcon( theApp.GetResources().getIconLayout1x1());
+        btnLayout1x2.setText( ""); btnLayout1x2.setIcon( theApp.GetResources().getIconLayout1x2());
+        btnLayout2x1.setText( ""); btnLayout2x1.setIcon( theApp.GetResources().getIconLayout2x1());
+        btnLayout2x2.setText( ""); btnLayout2x2.setIcon( theApp.GetResources().getIconLayout2x2());
         
-        m_graphRefreshThread = new GraphRefreshThread();
-        m_graphRefreshThread.start();
-        
+        hvv_devices.HVV_HvDevices.getInstance().
         m_LedsThread = new LedsControlThread( app);
         m_LedsThread.start();
         
@@ -87,6 +61,27 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         else if( Logger.getRootLogger().getLevel() == org.apache.log4j.Level.WARN)  btnTogWarn.setSelected( true);
         else if( Logger.getRootLogger().getLevel() == org.apache.log4j.Level.ERROR) btnTogError.setSelected( true);
         else btnTogFatal.setSelected( true);
+        
+        m_panelGraph1 = new PanelGraph( app, app.m_serie1);
+        pnlGraph1.add( m_panelGraph1);
+        m_panelGraph1.setVisible( true);
+        m_panelGraph1.setBoundsO( 0, 0, 530, 250);
+        
+        m_panelGraph2 = new PanelGraph( app, app.m_serie2);
+        pnlGraph2.add( m_panelGraph2);
+        m_panelGraph2.setVisible( true);
+        m_panelGraph2.setBoundsO( 0, 0, 530, 250);
+        
+        m_panelGraph3 = new PanelGraph( app, app.m_serie3);
+        pnlGraph3.add( m_panelGraph3);
+        m_panelGraph3.setVisible( true);
+        m_panelGraph3.setBoundsO( 0, 0, 530, 250);
+        
+        m_panelGraph4 = new PanelGraph( app, app.m_serie4);
+        pnlGraph4.add( m_panelGraph4);
+        m_panelGraph4.setVisible( true);
+        m_panelGraph4.setBoundsO( 0, 0, 530, 250);
+        
     }
 
     /**
@@ -116,7 +111,14 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         lblLedAdmin = new javax.swing.JLabel();
         lblTitleAdmin = new javax.swing.JLabel();
         lblLastActionAdmin = new javax.swing.JLabel();
-        pnlGraph = new javax.swing.JPanel();
+        cmbGraph1 = new javax.swing.JComboBox();
+        pnlGraph1 = new javax.swing.JPanel();
+        cmbGraph2 = new javax.swing.JComboBox();
+        pnlGraph2 = new javax.swing.JPanel();
+        cmbGraph3 = new javax.swing.JComboBox();
+        pnlGraph3 = new javax.swing.JPanel();
+        cmbGraph4 = new javax.swing.JComboBox();
+        pnlGraph4 = new javax.swing.JPanel();
         btnExit = new javax.swing.JButton();
         btnTogTrace = new javax.swing.JToggleButton();
         btnTogDebug = new javax.swing.JToggleButton();
@@ -124,11 +126,15 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         btnTogWarn = new javax.swing.JToggleButton();
         btnTogFatal = new javax.swing.JToggleButton();
         btnTogError = new javax.swing.JToggleButton();
+        btnLayout1x1 = new javax.swing.JButton();
+        btnLayout1x2 = new javax.swing.JButton();
+        btnLayout2x1 = new javax.swing.JButton();
+        btnLayout2x2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 500));
-        setMinimumSize(new java.awt.Dimension(800, 500));
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setMaximumSize(new java.awt.Dimension(1100, 800));
+        setMinimumSize(new java.awt.Dimension(1100, 800));
+        setPreferredSize(new java.awt.Dimension(1100, 800));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -238,24 +244,106 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         getContentPane().add(lblLastActionAdmin);
         lblLastActionAdmin.setBounds(450, 130, 160, 30);
 
-        pnlGraph.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlGraph.setMaximumSize(new java.awt.Dimension(580, 260));
-        pnlGraph.setMinimumSize(new java.awt.Dimension(580, 260));
-        pnlGraph.setPreferredSize(new java.awt.Dimension(580, 260));
+        cmbGraph1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbGraph1.setMaximumSize(new java.awt.Dimension(530, 25));
+        cmbGraph1.setMinimumSize(new java.awt.Dimension(530, 25));
+        cmbGraph1.setPreferredSize(new java.awt.Dimension(530, 25));
+        getContentPane().add(cmbGraph1);
+        cmbGraph1.setBounds(10, 200, 530, 25);
 
-        javax.swing.GroupLayout pnlGraphLayout = new javax.swing.GroupLayout(pnlGraph);
-        pnlGraph.setLayout(pnlGraphLayout);
-        pnlGraphLayout.setHorizontalGroup(
-            pnlGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 576, Short.MAX_VALUE)
+        pnlGraph1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlGraph1.setMaximumSize(new java.awt.Dimension(530, 380));
+        pnlGraph1.setMinimumSize(new java.awt.Dimension(530, 380));
+
+        javax.swing.GroupLayout pnlGraph1Layout = new javax.swing.GroupLayout(pnlGraph1);
+        pnlGraph1.setLayout(pnlGraph1Layout);
+        pnlGraph1Layout.setHorizontalGroup(
+            pnlGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 526, Short.MAX_VALUE)
         );
-        pnlGraphLayout.setVerticalGroup(
-            pnlGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlGraph1Layout.setVerticalGroup(
+            pnlGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 376, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(pnlGraph1);
+        pnlGraph1.setBounds(10, 225, 530, 250);
+
+        cmbGraph2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbGraph2.setMaximumSize(new java.awt.Dimension(530, 25));
+        cmbGraph2.setMinimumSize(new java.awt.Dimension(530, 25));
+        cmbGraph2.setPreferredSize(new java.awt.Dimension(530, 25));
+        getContentPane().add(cmbGraph2);
+        cmbGraph2.setBounds(560, 200, 530, 25);
+
+        pnlGraph2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlGraph2.setMaximumSize(new java.awt.Dimension(530, 260));
+        pnlGraph2.setMinimumSize(new java.awt.Dimension(530, 260));
+        pnlGraph2.setPreferredSize(new java.awt.Dimension(530, 260));
+
+        javax.swing.GroupLayout pnlGraph2Layout = new javax.swing.GroupLayout(pnlGraph2);
+        pnlGraph2.setLayout(pnlGraph2Layout);
+        pnlGraph2Layout.setHorizontalGroup(
+            pnlGraph2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 526, Short.MAX_VALUE)
+        );
+        pnlGraph2Layout.setVerticalGroup(
+            pnlGraph2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 256, Short.MAX_VALUE)
         );
 
-        getContentPane().add(pnlGraph);
-        pnlGraph.setBounds(10, 170, 580, 260);
+        getContentPane().add(pnlGraph2);
+        pnlGraph2.setBounds(560, 225, 530, 250);
+
+        cmbGraph3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbGraph3.setMaximumSize(new java.awt.Dimension(530, 25));
+        cmbGraph3.setMinimumSize(new java.awt.Dimension(530, 25));
+        cmbGraph3.setPreferredSize(new java.awt.Dimension(530, 25));
+        getContentPane().add(cmbGraph3);
+        cmbGraph3.setBounds(10, 490, 530, 25);
+
+        pnlGraph3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlGraph3.setMaximumSize(new java.awt.Dimension(530, 380));
+        pnlGraph3.setMinimumSize(new java.awt.Dimension(530, 380));
+
+        javax.swing.GroupLayout pnlGraph3Layout = new javax.swing.GroupLayout(pnlGraph3);
+        pnlGraph3.setLayout(pnlGraph3Layout);
+        pnlGraph3Layout.setHorizontalGroup(
+            pnlGraph3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 526, Short.MAX_VALUE)
+        );
+        pnlGraph3Layout.setVerticalGroup(
+            pnlGraph3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 376, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(pnlGraph3);
+        pnlGraph3.setBounds(10, 515, 530, 250);
+
+        cmbGraph4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbGraph4.setMaximumSize(new java.awt.Dimension(530, 25));
+        cmbGraph4.setMinimumSize(new java.awt.Dimension(530, 25));
+        cmbGraph4.setPreferredSize(new java.awt.Dimension(530, 25));
+        getContentPane().add(cmbGraph4);
+        cmbGraph4.setBounds(560, 490, 530, 25);
+
+        pnlGraph4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlGraph4.setMaximumSize(new java.awt.Dimension(530, 260));
+        pnlGraph4.setMinimumSize(new java.awt.Dimension(530, 260));
+
+        javax.swing.GroupLayout pnlGraph4Layout = new javax.swing.GroupLayout(pnlGraph4);
+        pnlGraph4.setLayout(pnlGraph4Layout);
+        pnlGraph4Layout.setHorizontalGroup(
+            pnlGraph4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 526, Short.MAX_VALUE)
+        );
+        pnlGraph4Layout.setVerticalGroup(
+            pnlGraph4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 256, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(pnlGraph4);
+        pnlGraph4.setBounds(560, 515, 530, 250);
 
         btnExit.setText("Выход");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -264,7 +352,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnExit);
-        btnExit.setBounds(610, 390, 180, 40);
+        btnExit.setBounds(840, 10, 240, 40);
 
         btnGroupLogLevel.add(btnTogTrace);
         btnTogTrace.setText("T");
@@ -274,7 +362,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogTrace);
-        btnTogTrace.setBounds(610, 170, 40, 28);
+        btnTogTrace.setBounds(840, 70, 40, 25);
 
         btnGroupLogLevel.add(btnTogDebug);
         btnTogDebug.setText("D");
@@ -284,7 +372,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogDebug);
-        btnTogDebug.setBounds(610, 200, 40, 28);
+        btnTogDebug.setBounds(880, 70, 40, 25);
 
         btnGroupLogLevel.add(btnTogInfo);
         btnTogInfo.setText("I");
@@ -294,7 +382,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogInfo);
-        btnTogInfo.setBounds(610, 230, 40, 28);
+        btnTogInfo.setBounds(920, 70, 40, 25);
 
         btnGroupLogLevel.add(btnTogWarn);
         btnTogWarn.setText("W");
@@ -304,7 +392,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogWarn);
-        btnTogWarn.setBounds(610, 260, 40, 28);
+        btnTogWarn.setBounds(960, 70, 40, 25);
 
         btnGroupLogLevel.add(btnTogFatal);
         btnTogFatal.setText("F");
@@ -314,7 +402,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogFatal);
-        btnTogFatal.setBounds(610, 320, 40, 28);
+        btnTogFatal.setBounds(1040, 70, 40, 25);
 
         btnGroupLogLevel.add(btnTogError);
         btnTogError.setText("E");
@@ -324,7 +412,55 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogError);
-        btnTogError.setBounds(610, 290, 40, 28);
+        btnTogError.setBounds(1000, 70, 40, 25);
+
+        btnLayout1x1.setText("1x1");
+        btnLayout1x1.setMaximumSize(new java.awt.Dimension(50, 40));
+        btnLayout1x1.setMinimumSize(new java.awt.Dimension(50, 40));
+        btnLayout1x1.setPreferredSize(new java.awt.Dimension(50, 40));
+        btnLayout1x1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLayout1x1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLayout1x1);
+        btnLayout1x1.setBounds(840, 120, 50, 40);
+
+        btnLayout1x2.setText("1x2");
+        btnLayout1x2.setMaximumSize(new java.awt.Dimension(50, 40));
+        btnLayout1x2.setMinimumSize(new java.awt.Dimension(50, 40));
+        btnLayout1x2.setPreferredSize(new java.awt.Dimension(50, 40));
+        btnLayout1x2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLayout1x2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLayout1x2);
+        btnLayout1x2.setBounds(900, 120, 50, 40);
+
+        btnLayout2x1.setText("2x1");
+        btnLayout2x1.setMaximumSize(new java.awt.Dimension(50, 40));
+        btnLayout2x1.setMinimumSize(new java.awt.Dimension(50, 40));
+        btnLayout2x1.setPreferredSize(new java.awt.Dimension(50, 40));
+        btnLayout2x1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLayout2x1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLayout2x1);
+        btnLayout2x1.setBounds(970, 120, 50, 40);
+
+        btnLayout2x2.setText("2x2");
+        btnLayout2x2.setMaximumSize(new java.awt.Dimension(50, 40));
+        btnLayout2x2.setMinimumSize(new java.awt.Dimension(50, 40));
+        btnLayout2x2.setPreferredSize(new java.awt.Dimension(50, 40));
+        btnLayout2x2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLayout2x2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLayout2x2);
+        btnLayout2x2.setBounds(1030, 120, 50, 40);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -334,8 +470,6 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        m_graphRefreshThread.m_bContinue = false;
-        
         btnExit.setVisible(false);
         theApp.GetPollerVacThread().stop();
         theApp.GetPollerHvThread().stop();
@@ -416,6 +550,83 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnTogErrorActionPerformed
 
+    private void btnLayout1x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout1x1ActionPerformed
+        cmbGraph1.setBounds( 10, 200, 1080, 25);
+        pnlGraph1.setBounds( 10, 225, 1080, 540);
+        m_panelGraph1.setBoundsO( 0, 0, 1080, 540);
+
+        cmbGraph2.setVisible( false);
+        pnlGraph2.setVisible( false);
+       
+        cmbGraph3.setVisible( false);
+        pnlGraph3.setVisible( false);
+        
+        cmbGraph4.setVisible( false);
+        pnlGraph4.setVisible( false);
+    }//GEN-LAST:event_btnLayout1x1ActionPerformed
+
+    private void btnLayout1x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout1x2ActionPerformed
+        //=
+        cmbGraph1.setBounds( 10, 200, 1080, 25);
+        pnlGraph1.setBounds( 10, 225, 1080, 250);
+        m_panelGraph1.setBounds( 0, 0, 1080, 250);
+        
+        cmbGraph2.setVisible( false);
+        pnlGraph2.setVisible( false);
+        
+        cmbGraph3.setVisible( true);
+        cmbGraph3.setBounds( 10, 490, 1080, 25);
+        pnlGraph3.setVisible( true);
+        pnlGraph3.setBounds( 10, 515, 1080, 250);
+        m_panelGraph3.setBoundsO( 0, 0, 1080, 250);
+        
+        cmbGraph4.setVisible( false);
+        pnlGraph4.setVisible( false);
+    }//GEN-LAST:event_btnLayout1x2ActionPerformed
+
+    private void btnLayout2x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout2x1ActionPerformed
+        //||
+        cmbGraph1.setBounds( 10, 200, 530, 25);
+        pnlGraph1.setBounds( 10, 225, 530, 540);
+        m_panelGraph1.setBoundsO( 0, 0, 530, 540);
+        
+        cmbGraph2.setVisible( true);
+        cmbGraph2.setBounds( 560, 200, 530, 25);
+        pnlGraph2.setVisible( true);
+        pnlGraph2.setBounds( 560, 225, 530, 540);
+        m_panelGraph2.setBoundsO( 0, 0, 530, 540);
+        
+        cmbGraph3.setVisible( false);
+        pnlGraph3.setVisible( false);
+        
+        cmbGraph4.setVisible( false);
+        pnlGraph4.setVisible( false);
+    }//GEN-LAST:event_btnLayout2x1ActionPerformed
+
+    private void btnLayout2x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout2x2ActionPerformed
+        cmbGraph1.setBounds( 10, 200, 530, 25);
+        pnlGraph1.setBounds( 10, 225, 530, 250);
+        m_panelGraph1.setBoundsO( 0, 0, 530, 250);
+        
+        cmbGraph2.setVisible( true);
+        cmbGraph2.setBounds( 560, 200, 530, 25);
+        pnlGraph2.setVisible( true);
+        pnlGraph2.setBounds( 560, 225, 530, 250);
+        m_panelGraph2.setBoundsO( 0, 0, 530, 250);
+        
+        cmbGraph3.setVisible( true);
+        cmbGraph3.setBounds( 10, 490, 530, 25);
+        pnlGraph3.setVisible( true);
+        pnlGraph3.setBounds( 10, 515, 530, 250);
+        m_panelGraph3.setBoundsO( 0, 0, 530, 250);
+        
+        cmbGraph4.setVisible( true);
+        cmbGraph4.setBounds( 560, 490, 530, 25);
+        pnlGraph4.setVisible( true);
+        pnlGraph4.setBounds( 560, 515, 530, 250);
+        m_panelGraph4.setBoundsO( 0, 0, 530, 250);
+    }//GEN-LAST:event_btnLayout2x2ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -457,6 +668,10 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroupLogLevel;
     private javax.swing.JButton btnHvRun;
     private javax.swing.JButton btnHvStop;
+    private javax.swing.JButton btnLayout1x1;
+    private javax.swing.JButton btnLayout1x2;
+    private javax.swing.JButton btnLayout2x1;
+    private javax.swing.JButton btnLayout2x2;
     private javax.swing.JToggleButton btnTogDebug;
     private javax.swing.JToggleButton btnTogError;
     private javax.swing.JToggleButton btnTogFatal;
@@ -465,6 +680,10 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnTogWarn;
     private javax.swing.JButton btnVacuumRun;
     private javax.swing.JButton btnVacuumStop;
+    private javax.swing.JComboBox cmbGraph1;
+    private javax.swing.JComboBox cmbGraph2;
+    private javax.swing.JComboBox cmbGraph3;
+    private javax.swing.JComboBox cmbGraph4;
     private javax.swing.JButton jButton1;
     public javax.swing.JLabel lblLastActionAdmin;
     public javax.swing.JLabel lblLastActionExecutor;
@@ -478,6 +697,9 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitleExecutor;
     private javax.swing.JLabel lblTitleHv;
     private javax.swing.JLabel lblTitleVac;
-    private javax.swing.JPanel pnlGraph;
+    private javax.swing.JPanel pnlGraph1;
+    private javax.swing.JPanel pnlGraph2;
+    private javax.swing.JPanel pnlGraph3;
+    private javax.swing.JPanel pnlGraph4;
     // End of variables declaration//GEN-END:variables
 }

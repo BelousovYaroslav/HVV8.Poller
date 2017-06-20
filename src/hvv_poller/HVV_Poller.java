@@ -24,6 +24,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
 
 /**
  *
@@ -31,6 +33,11 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class HVV_Poller {
 
+    final TimeSeries m_serie1;
+    final TimeSeries m_serie2;
+    final TimeSeries m_serie3;
+    final TimeSeries m_serie4;
+    
     private boolean m_bStartedSuccessfully;
     static Logger logger = Logger.getLogger( HVV_Poller.class);
     
@@ -83,6 +90,11 @@ public class HVV_Poller {
         m_bStartedSuccessfully = false;
         m_strAMSrootEnvVar = System.getenv( "AMS_ROOT");
         
+        m_serie1 = new TimeSeries( "G1", Millisecond.class);
+        m_serie2 = new TimeSeries( "G2", Millisecond.class);
+        m_serie3 = new TimeSeries( "G3", Millisecond.class);
+        m_serie4 = new TimeSeries( "G4", Millisecond.class);
+    
         //SETTINGS
         m_Settings = new HVV_PollerSettings( m_strAMSrootEnvVar);
         
