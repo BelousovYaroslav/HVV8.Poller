@@ -33,10 +33,10 @@ import org.jfree.data.time.TimeSeries;
  */
 public class HVV_Poller {
 
-    final TimeSeries m_serie1;
-    final TimeSeries m_serie2;
-    final TimeSeries m_serie3;
-    final TimeSeries m_serie4;
+    public final TimeSeries m_serie1;
+    public final TimeSeries m_serie2;
+    public final TimeSeries m_serie3;
+    public final TimeSeries m_serie4;
     
     private boolean m_bStartedSuccessfully;
     static Logger logger = Logger.getLogger( HVV_Poller.class);

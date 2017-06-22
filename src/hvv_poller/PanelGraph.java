@@ -47,7 +47,7 @@ public class PanelGraph extends javax.swing.JPanel {
 
     private JFreeChart createChart(final XYDataset dataset) {
         final JFreeChart result = ChartFactory.createTimeSeriesChart(
-            "Какой-то параметр",
+            "",
             "Время",
             "Пока неясно",
             dataset,
@@ -60,18 +60,19 @@ public class PanelGraph extends javax.swing.JPanel {
         plot.setBackgroundPaint( Color.BLACK);
         ValueAxis axis = plot.getDomainAxis();
         axis.setAutoRange(true);
-        axis.setFixedAutoRange(60000.0);  // 60 seconds
+        axis.setFixedAutoRange( 60000.0);  // 60 seconds
         
-        plot.getRendererForDataset( dataset).setSeriesPaint( 0, new Color( 0,   0,  32));
-        plot.getRendererForDataset( dataset).setSeriesPaint( 1, new Color( 0,   32, 0));
-        plot.getRendererForDataset( dataset).setSeriesPaint( 2, new Color( 32,  0,  0));
+        //plot.getRendererForDataset( dataset).setSeriesPaint( 0, new Color( 0,   0,  32));
+        //plot.getRendererForDataset( dataset).setSeriesPaint( 1, new Color( 0,   32, 0));
+        //plot.getRendererForDataset( dataset).setSeriesPaint( 2, new Color( 32,  0,  0));
         
         //DateFormat dtFmt = new SimpleDateFormat();
         //DateAxis dtAxis = ( DateAxis) axis;
         //dtAxis.setDateFormatOverride( dtFmt);
         
-        axis = plot.getRangeAxis();
-        axis.setRange(0.0, 10.0);
+        //axis = plot.getRangeAxis();
+        //axis.setRange(0.0, 10.0);
+        
         return result;
     }
     

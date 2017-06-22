@@ -5,10 +5,12 @@
  */
 package hvv_poller;
 
+import hvv_devices.HVV_HvDevices;
+import hvv_devices.HVV_VacuumDevices;
 import org.apache.log4j.Logger;
 import hvv_poller.storage.HVV_LogsRepacker;
 import hvv_poller.storage.HVV_StorageRepacker;
-import static java.lang.Thread.sleep;
+import javax.swing.DefaultComboBoxModel;
 import org.apache.log4j.Level;
 
 /**
@@ -31,6 +33,17 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     
     private final HVV_LogsRepacker m_LogsStorageRepacker;
     
+    final private DefaultComboBoxModel cmbObjectModelG1;
+    final private DefaultComboBoxModel cmbObjectModelG2;
+    final private DefaultComboBoxModel cmbObjectModelG3;
+    final private DefaultComboBoxModel cmbObjectModelG4;
+    
+    public String strGraph1Device, strGraph1DeviceParam;
+    public String strGraph2Device, strGraph2DeviceParam;
+    public String strGraph3Device, strGraph3DeviceParam;
+    public String strGraph4Device, strGraph4DeviceParam;
+    
+    
     /**
      * Creates new form HVV_Poller_MainFrame
      */
@@ -45,7 +58,26 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         btnLayout2x1.setText( ""); btnLayout2x1.setIcon( theApp.GetResources().getIconLayout2x1());
         btnLayout2x2.setText( ""); btnLayout2x2.setIcon( theApp.GetResources().getIconLayout2x2());
         
-        hvv_devices.HVV_HvDevices.getInstance().
+        cmbObjectModelG1 = new DefaultComboBoxModel();
+        HVV_VacuumDevices.getInstance().fillComboGraph( cmbObjectModelG1, true);
+        HVV_HvDevices.getInstance().fillComboGraph( cmbObjectModelG1, false);
+        cmbGraph1.setModel( cmbObjectModelG1);
+        
+        cmbObjectModelG2 = new DefaultComboBoxModel();
+        HVV_VacuumDevices.getInstance().fillComboGraph( cmbObjectModelG2, true);
+        HVV_HvDevices.getInstance().fillComboGraph( cmbObjectModelG2, false);
+        cmbGraph2.setModel( cmbObjectModelG2);
+        
+        cmbObjectModelG3 = new DefaultComboBoxModel();
+        HVV_VacuumDevices.getInstance().fillComboGraph( cmbObjectModelG3, true);
+        HVV_HvDevices.getInstance().fillComboGraph( cmbObjectModelG3, false);
+        cmbGraph3.setModel( cmbObjectModelG3);
+        
+        cmbObjectModelG4 = new DefaultComboBoxModel();
+        HVV_VacuumDevices.getInstance().fillComboGraph( cmbObjectModelG4, true);
+        HVV_HvDevices.getInstance().fillComboGraph( cmbObjectModelG4, false);
+        cmbGraph4.setModel( cmbObjectModelG4);
+                
         m_LedsThread = new LedsControlThread( app);
         m_LedsThread.start();
         
@@ -82,6 +114,10 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         m_panelGraph4.setVisible( true);
         m_panelGraph4.setBoundsO( 0, 0, 530, 250);
         
+        cmbGraph1ActionPerformed( null);
+        cmbGraph2ActionPerformed( null);
+        cmbGraph3ActionPerformed( null);
+        cmbGraph4ActionPerformed( null);
     }
 
     /**
@@ -130,10 +166,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         btnLayout1x2 = new javax.swing.JButton();
         btnLayout2x1 = new javax.swing.JButton();
         btnLayout2x2 = new javax.swing.JButton();
+        btnLayout0 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1100, 800));
-        setMinimumSize(new java.awt.Dimension(1100, 800));
+        setMinimumSize(new java.awt.Dimension(1100, 200));
         setPreferredSize(new java.awt.Dimension(1100, 800));
         setResizable(false);
         getContentPane().setLayout(null);
@@ -248,6 +285,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         cmbGraph1.setMaximumSize(new java.awt.Dimension(530, 25));
         cmbGraph1.setMinimumSize(new java.awt.Dimension(530, 25));
         cmbGraph1.setPreferredSize(new java.awt.Dimension(530, 25));
+        cmbGraph1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbGraph1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbGraph1);
         cmbGraph1.setBounds(10, 200, 530, 25);
 
@@ -273,6 +315,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         cmbGraph2.setMaximumSize(new java.awt.Dimension(530, 25));
         cmbGraph2.setMinimumSize(new java.awt.Dimension(530, 25));
         cmbGraph2.setPreferredSize(new java.awt.Dimension(530, 25));
+        cmbGraph2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbGraph2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbGraph2);
         cmbGraph2.setBounds(560, 200, 530, 25);
 
@@ -299,6 +346,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         cmbGraph3.setMaximumSize(new java.awt.Dimension(530, 25));
         cmbGraph3.setMinimumSize(new java.awt.Dimension(530, 25));
         cmbGraph3.setPreferredSize(new java.awt.Dimension(530, 25));
+        cmbGraph3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbGraph3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbGraph3);
         cmbGraph3.setBounds(10, 490, 530, 25);
 
@@ -324,6 +376,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         cmbGraph4.setMaximumSize(new java.awt.Dimension(530, 25));
         cmbGraph4.setMinimumSize(new java.awt.Dimension(530, 25));
         cmbGraph4.setPreferredSize(new java.awt.Dimension(530, 25));
+        cmbGraph4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbGraph4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbGraph4);
         cmbGraph4.setBounds(560, 490, 530, 25);
 
@@ -424,7 +481,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnLayout1x1);
-        btnLayout1x1.setBounds(840, 120, 50, 40);
+        btnLayout1x1.setBounds(880, 120, 50, 40);
 
         btnLayout1x2.setText("1x2");
         btnLayout1x2.setMaximumSize(new java.awt.Dimension(50, 40));
@@ -436,7 +493,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnLayout1x2);
-        btnLayout1x2.setBounds(900, 120, 50, 40);
+        btnLayout1x2.setBounds(930, 120, 50, 40);
 
         btnLayout2x1.setText("2x1");
         btnLayout2x1.setMaximumSize(new java.awt.Dimension(50, 40));
@@ -448,7 +505,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnLayout2x1);
-        btnLayout2x1.setBounds(970, 120, 50, 40);
+        btnLayout2x1.setBounds(980, 120, 50, 40);
 
         btnLayout2x2.setText("2x2");
         btnLayout2x2.setMaximumSize(new java.awt.Dimension(50, 40));
@@ -461,6 +518,18 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         });
         getContentPane().add(btnLayout2x2);
         btnLayout2x2.setBounds(1030, 120, 50, 40);
+
+        btnLayout0.setText("0");
+        btnLayout0.setMaximumSize(new java.awt.Dimension(50, 40));
+        btnLayout0.setMinimumSize(new java.awt.Dimension(50, 40));
+        btnLayout0.setPreferredSize(new java.awt.Dimension(50, 40));
+        btnLayout0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLayout0ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLayout0);
+        btnLayout0.setBounds(830, 120, 50, 40);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -551,6 +620,8 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTogErrorActionPerformed
 
     private void btnLayout1x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout1x1ActionPerformed
+        setSize( 1100, 800);
+        
         cmbGraph1.setBounds( 10, 200, 1080, 25);
         pnlGraph1.setBounds( 10, 225, 1080, 540);
         m_panelGraph1.setBoundsO( 0, 0, 1080, 540);
@@ -567,6 +638,9 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
 
     private void btnLayout1x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout1x2ActionPerformed
         //=
+        
+        setSize( 1100, 800);
+        
         cmbGraph1.setBounds( 10, 200, 1080, 25);
         pnlGraph1.setBounds( 10, 225, 1080, 250);
         m_panelGraph1.setBounds( 0, 0, 1080, 250);
@@ -586,6 +660,9 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
 
     private void btnLayout2x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout2x1ActionPerformed
         //||
+        
+        setSize( 1100, 800);
+        
         cmbGraph1.setBounds( 10, 200, 530, 25);
         pnlGraph1.setBounds( 10, 225, 530, 540);
         m_panelGraph1.setBoundsO( 0, 0, 530, 540);
@@ -604,6 +681,8 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLayout2x1ActionPerformed
 
     private void btnLayout2x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout2x2ActionPerformed
+        setSize( 1100, 800);
+        
         cmbGraph1.setBounds( 10, 200, 530, 25);
         pnlGraph1.setBounds( 10, 225, 530, 250);
         m_panelGraph1.setBoundsO( 0, 0, 530, 250);
@@ -626,6 +705,506 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         pnlGraph4.setBounds( 560, 515, 530, 250);
         m_panelGraph4.setBoundsO( 0, 0, 530, 250);
     }//GEN-LAST:event_btnLayout2x2ActionPerformed
+
+    private void btnLayout0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout0ActionPerformed
+        
+        setSize( 1100, 200);
+    }//GEN-LAST:event_btnLayout0ActionPerformed
+
+    private void cmbGraph1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGraph1ActionPerformed
+        theApp.m_serie1.clear();
+        int nIndex = cmbGraph1.getSelectedIndex();
+        String strSelection = ( String) cmbGraph1.getModel().getElementAt(nIndex);
+            
+        String [] parts;
+        parts = strSelection.split( "\\.");
+        
+        strGraph1Device = parts[0];
+        if( strGraph1Device.startsWith( "24") || strGraph1Device.startsWith( "L"))
+            strGraph1DeviceParam = parts[3];
+        else
+            strGraph1DeviceParam = parts[2];
+        
+        String strFullParam = strGraph1Device + "." + strGraph1DeviceParam;
+        switch( strFullParam) {
+            case "002.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Обороты в мин");    break;
+            case "003.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Обороты в мин");    break;
+            case "005.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "006.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "007.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "018.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "018.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "018.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "04A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "04B.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "04C.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "16A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "16B.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16B.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16B.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "16C.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16C.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16C.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "17A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "17A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "17A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "17B.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "17B.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "17B.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+                
+            case "24A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24B.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24B.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24B.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24C.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24C.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24C.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24D.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24D.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24D.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24E.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24E.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24E.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24F.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24F.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24F.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24G.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24G.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24G.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24H.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24H.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24H.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            
+            case "L1A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L1A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L1A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L1T.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L1T.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L1T.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L2A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L2A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L2A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L2T.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L2T.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L2T.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L3A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L3A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L3A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L3T.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L3T.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L3T.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L4A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L4A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L4A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L4T.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L4T.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L4T.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L5A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L5A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L5A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L5T.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L5T.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L5T.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L6A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L6A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L6A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L6T.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L6T.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L6T.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L7A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L7A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L7A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L7T.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L7T.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L7T.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L8A.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L8A.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L8A.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L8T.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L8T.02":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L8T.03":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            
+            case "PRE.01":  m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка, мкА");       break;
+                
+            default:        m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( "Непонятно");
+        }
+    }//GEN-LAST:event_cmbGraph1ActionPerformed
+
+    private void cmbGraph2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGraph2ActionPerformed
+        theApp.m_serie2.clear();
+        
+        int nIndex = cmbGraph2.getSelectedIndex();
+        String strSelection = ( String) cmbGraph2.getModel().getElementAt(nIndex);
+            
+        String [] parts;
+        parts = strSelection.split( "\\.");
+        
+        strGraph2Device = parts[0];
+        if( strGraph2Device.startsWith( "24") || strGraph2Device.startsWith( "L"))
+            strGraph2DeviceParam = parts[3];
+        else
+            strGraph2DeviceParam = parts[2];
+        
+        String strFullParam = strGraph2Device + "." + strGraph2DeviceParam;
+        switch( strFullParam) {
+            case "002.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Обороты в мин");    break;
+            case "003.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Обороты в мин");    break;
+            case "005.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "006.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "007.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "018.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "018.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "018.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "04A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "04B.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "04C.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "16A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "16B.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16B.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16B.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "16C.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16C.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16C.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "17A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "17A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "17A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "17B.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "17B.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "17B.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+                
+            case "24A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24B.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24B.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24B.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24C.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24C.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24C.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24D.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24D.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24D.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24E.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24E.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24E.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24F.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24F.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24F.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24G.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24G.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24G.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24H.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24H.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24H.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            
+            case "L1A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L1A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L1A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L1T.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L1T.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L1T.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L2A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L2A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L2A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L2T.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L2T.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L2T.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L3A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L3A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L3A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L3T.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L3T.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L3T.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L4A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L4A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L4A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L4T.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L4T.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L4T.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L5A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L5A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L5A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L5T.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L5T.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L5T.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L6A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L6A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L6A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L6T.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L6T.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L6T.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L7A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L7A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L7A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L7T.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L7T.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L7T.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L8A.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L8A.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L8A.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L8T.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L8T.02":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L8T.03":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            
+            case "PRE.01":  m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка, мкА");       break;
+                
+            default:        m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( "Непонятно");
+        }
+    }//GEN-LAST:event_cmbGraph2ActionPerformed
+
+    private void cmbGraph3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGraph3ActionPerformed
+        theApp.m_serie3.clear();
+        
+        int nIndex = cmbGraph3.getSelectedIndex();
+        String strSelection = ( String) cmbGraph3.getModel().getElementAt(nIndex);
+            
+        String [] parts;
+        parts = strSelection.split( "\\.");
+        
+        strGraph3Device = parts[0];
+        if( strGraph3Device.startsWith( "24") || strGraph3Device.startsWith( "L"))
+            strGraph3DeviceParam = parts[3];
+        else
+            strGraph3DeviceParam = parts[2];
+        
+        String strFullParam = strGraph3Device + "." + strGraph3DeviceParam;
+        switch( strFullParam) {
+            case "002.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Обороты в мин");    break;
+            case "003.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Обороты в мин");    break;
+            case "005.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "006.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "007.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "018.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "018.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "018.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "04A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "04B.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "04C.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "16A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "16B.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16B.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16B.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "16C.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16C.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16C.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "17A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "17A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "17A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "17B.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "17B.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "17B.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+                
+            case "24A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24B.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24B.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24B.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24C.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24C.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24C.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24D.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24D.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24D.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24E.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24E.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24E.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24F.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24F.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24F.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24G.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24G.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24G.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24H.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24H.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24H.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            
+            case "L1A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L1A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L1A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L1T.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L1T.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L1T.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L2A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L2A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L2A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L2T.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L2T.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L2T.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L3A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L3A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L3A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L3T.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L3T.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L3T.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L4A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L4A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L4A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L4T.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L4T.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L4T.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L5A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L5A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L5A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L5T.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L5T.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L5T.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L6A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L6A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L6A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L6T.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L6T.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L6T.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L7A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L7A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L7A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L7T.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L7T.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L7T.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L8A.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L8A.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L8A.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L8T.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L8T.02":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L8T.03":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            
+            case "PRE.01":  m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка, мкА");       break;
+                
+            default:        m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( "Непонятно");
+        }
+    }//GEN-LAST:event_cmbGraph3ActionPerformed
+
+    private void cmbGraph4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGraph4ActionPerformed
+        theApp.m_serie4.clear();
+        
+        int nIndex = cmbGraph4.getSelectedIndex();
+        String strSelection = ( String) cmbGraph4.getModel().getElementAt(nIndex);
+            
+        String [] parts;
+        parts = strSelection.split( "\\.");
+        
+        strGraph4Device = parts[0];
+        if( strGraph4Device.startsWith( "24") || strGraph4Device.startsWith( "L"))
+            strGraph4DeviceParam = parts[3];
+        else
+            strGraph4DeviceParam = parts[2];
+        
+        String strFullParam = strGraph4Device + "." + strGraph4DeviceParam;
+        switch( strFullParam) {
+            case "002.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Обороты в мин");    break;
+            case "003.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Обороты в мин");    break;
+            case "005.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "006.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "007.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "018.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "018.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "018.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "04A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "04B.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "04C.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Па");               break;
+            case "16A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "16B.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16B.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16B.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "16C.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "16C.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "16C.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "17A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "17A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "17A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+            case "17B.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "17B.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка");          break;
+            case "17B.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Поток");            break;
+                
+            case "24A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24B.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24B.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24B.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24C.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24C.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24C.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24D.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24D.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24D.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24E.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24E.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24E.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24F.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24F.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24F.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24G.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24G.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24G.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            case "24H.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "24H.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Температура");      break;
+            case "24H.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Подключение");      break;
+            
+            case "L1A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L1A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L1A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L1T.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L1T.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L1T.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L2A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L2A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L2A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L2T.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L2T.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L2T.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L3A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L3A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L3A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L3T.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L3T.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L3T.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L4A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L4A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L4A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L4T.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L4T.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L4T.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L5A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L5A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L5A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L5T.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L5T.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L5T.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L6A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L6A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L6A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L6T.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L6T.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L6T.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L7A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L7A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L7A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L7T.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L7T.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L7T.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L8A.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L8A.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L8A.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            case "L8T.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Состояние");        break;
+            case "L8T.02":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Ток, мкА");              break;
+            case "L8T.03":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Напряжение, В");       break;
+            
+            case "PRE.01":  m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Уставка, мкА");       break;
+                
+            default:        m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( "Непонятно");
+        }
+    }//GEN-LAST:event_cmbGraph4ActionPerformed
 
     
     /**
@@ -668,6 +1247,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroupLogLevel;
     private javax.swing.JButton btnHvRun;
     private javax.swing.JButton btnHvStop;
+    private javax.swing.JButton btnLayout0;
     private javax.swing.JButton btnLayout1x1;
     private javax.swing.JButton btnLayout1x2;
     private javax.swing.JButton btnLayout2x1;
