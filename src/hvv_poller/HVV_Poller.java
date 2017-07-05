@@ -100,7 +100,7 @@ public class HVV_Poller {
         
         //ПРОВЕРКА ОДНОВРЕМЕННОГО ЗАПУСКА ТОЛЬКО ОДНОЙ КОПИИ ПРОГРАММЫ
         try {
-            m_pSingleInstanceSocketServer = new ServerSocket( GetSettings().GetSingleInstanceSocketServerPort());
+            m_pSingleInstanceSocketServer = new ServerSocket( m_Settings.GetSingleInstanceSocketServerPort());
         }
         catch( Exception ex) {
             MessageBoxError( "Модуль сбора данных уже запущен.\nПоищите на других \"экранах\".", "Модуль сбора данных");

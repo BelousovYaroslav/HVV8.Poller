@@ -45,6 +45,9 @@ public class HVV_PollerSettings {
     private int m_nSingleInstanceSocketServerPort;
     public int GetSingleInstanceSocketServerPort() { return m_nSingleInstanceSocketServerPort;}
     
+    private int m_nArcViewerSingleInstanceSocketServerPort;
+    public int GetArcViewerSingleInstanceSocketServerPort() { return m_nArcViewerSingleInstanceSocketServerPort;}
+    
     public HVV_PollerSettings( String strAMSRoot) {
         //EMULATOR
         m_strVacuumPartHost = "localhost";
@@ -65,6 +68,7 @@ public class HVV_PollerSettings {
         m_nTimeZoneShift = 0;
         
         m_nSingleInstanceSocketServerPort = 10000;
+        m_nArcViewerSingleInstanceSocketServerPort = 10005;
         
         ReadSettings();
     }
@@ -100,6 +104,9 @@ public class HVV_PollerSettings {
                 if( "admin.port".equals( name)) m_nAdminPartPort = Integer.parseInt( value);
                 
                 if( "timezone".equals( name)) m_nTimeZoneShift = Integer.parseInt( value);
+                
+                if( "singleInstanceArcViewerPort".equals( name)) m_nArcViewerSingleInstanceSocketServerPort = Integer.parseInt( value);
+                
             }
             
         } catch( MalformedURLException ex) {

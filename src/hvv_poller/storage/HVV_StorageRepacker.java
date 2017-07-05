@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -51,6 +52,19 @@ public class HVV_StorageRepacker {
                 
                 logger.info( "Точка входа в перепаковщик файлов данных");
                 
+                
+                ServerSocket pSingleInstanceSocketServer;
+                //ПРОВЕРКА ОДНОВРЕМЕННОГО ЗАПУСКА ТОЛЬКО ОДНОЙ КОПИИ ПРОГРАММЫ
+                try {
+                    pSingleInstanceSocketServer = new ServerSocket( theApp.GetSettings().GetArcViewerSingleInstanceSocketServerPort());
+                }
+                catch( Exception ex) {
+                    logger.info( "Судя по exception у нас запущен модуль просмотра архивных данных. Данные перепаковывать не надо.", ex);
+                    return;
+                }
+        
+        
+        
                 /*GregorianCalendar clndrNow = new GregorianCalendar();
                 clndrNow.setTime( theApp.GetLocalDate());
                 if( clndrNow.get( Calendar.HOUR) == 0) {
