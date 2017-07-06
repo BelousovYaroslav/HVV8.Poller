@@ -50,7 +50,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     public HVV_Poller_MainFrame( HVV_Poller app) {
         initComponents();
         
-        setTitle( "Модуль опроса и накопления данных, v.1.0.0.0, (2017.06.16 12:30)  (C) ФЛАВТ 2017.");
+        setTitle( "Модуль опроса и накопления данных, v.1.0.0.0, (2017.07.06 16:00)  (C) ФЛАВТ 2017.");
         theApp = app;
         
         btnLayout1x1.setText( ""); btnLayout1x1.setIcon( theApp.GetResources().getIconLayout1x1());
@@ -643,7 +643,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         
         cmbGraph1.setBounds( 10, 200, 1080, 25);
         pnlGraph1.setBounds( 10, 225, 1080, 250);
-        m_panelGraph1.setBounds( 0, 0, 1080, 250);
+        m_panelGraph1.setBoundsO( 0, 0, 1080, 250);
         
         cmbGraph2.setVisible( false);
         pnlGraph2.setVisible( false);

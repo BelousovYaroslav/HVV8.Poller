@@ -97,22 +97,22 @@ public class HVV_StorageThread implements Runnable {
                         
                             String strDescriptorGraph1 = theApp.m_pMainWnd.strGraph1Device + "." + theApp.m_pMainWnd.strGraph1DeviceParam;
                             if( strDescriptor.equals( strDescriptorGraph1)) {
-                                theApp.m_serie1.addOrUpdate( new Millisecond(), unit.GetValue());
+                                theApp.m_serie1.addOrUpdate( new Millisecond( theApp.GetLocalDate()), unit.GetValue());
                             }
                             
                             String strDescriptorGraph2 = theApp.m_pMainWnd.strGraph2Device + "." + theApp.m_pMainWnd.strGraph2DeviceParam;
                             if( strDescriptor.equals( strDescriptorGraph2)) {
-                                theApp.m_serie2.addOrUpdate( new Millisecond(), unit.GetValue());
+                                theApp.m_serie2.addOrUpdate( new Millisecond( theApp.GetLocalDate()), unit.GetValue());
                             }
                             
                             String strDescriptorGraph3 = theApp.m_pMainWnd.strGraph3Device + "." + theApp.m_pMainWnd.strGraph3DeviceParam;
                             if( strDescriptor.equals( strDescriptorGraph3)) {
-                                theApp.m_serie3.addOrUpdate( new Millisecond(), unit.GetValue());
+                                theApp.m_serie3.addOrUpdate( new Millisecond( theApp.GetLocalDate()), unit.GetValue());
                             }
                             
                             String strDescriptorGraph4 = theApp.m_pMainWnd.strGraph4Device + "." + theApp.m_pMainWnd.strGraph4DeviceParam;
                             if( strDescriptor.equals( strDescriptorGraph4)) {
-                                theApp.m_serie4.addOrUpdate( new Millisecond(), unit.GetValue());
+                                theApp.m_serie4.addOrUpdate( new Millisecond( theApp.GetLocalDate()), unit.GetValue());
                             }
                         }
                     }
