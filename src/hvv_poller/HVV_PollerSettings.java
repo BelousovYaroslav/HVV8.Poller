@@ -105,7 +105,8 @@ public class HVV_PollerSettings {
                 
                 if( "timezone".equals( name)) m_nTimeZoneShift = Integer.parseInt( value);
                 
-                if( "singleInstanceArcViewerPort".equals( name)) m_nArcViewerSingleInstanceSocketServerPort = Integer.parseInt( value);
+                if( "singleInstancePort.ArcViewer".equals( name)) m_nArcViewerSingleInstanceSocketServerPort = Integer.parseInt( value);
+                if( "singleInstancePort.Poller".equals( name)) m_nSingleInstanceSocketServerPort = Integer.parseInt( value);
                 
             }
             

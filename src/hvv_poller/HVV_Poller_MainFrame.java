@@ -31,9 +31,9 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     PanelGraph m_panelGraph3;
     PanelGraph m_panelGraph4;
     
-    private final HVV_StorageRepacker m_StorageRepacker;
+    //private final HVV_StorageRepacker m_StorageRepacker;
     
-    private final HVV_LogsRepacker m_LogsStorageRepacker;
+    //private final HVV_LogsRepacker m_LogsStorageRepacker;
     
     final private DefaultComboBoxModel cmbObjectModelG1;
     final private DefaultComboBoxModel cmbObjectModelG2;
@@ -83,11 +83,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         m_LedsThread = new LedsControlThread( app);
         m_LedsThread.start();
         
-        m_StorageRepacker = new HVV_StorageRepacker( theApp);
-        m_StorageRepacker.StorageRepackStart();
+        //m_StorageRepacker = new HVV_StorageRepacker( theApp);
+        //m_StorageRepacker.StorageRepackStart();
         
-        m_LogsStorageRepacker = new HVV_LogsRepacker( theApp);
-        m_LogsStorageRepacker.LogsRepackStart();
+        //m_LogsStorageRepacker = new HVV_LogsRepacker( theApp);
+        //m_LogsStorageRepacker.LogsRepackStart();
         
         if(      Logger.getRootLogger().getLevel() == org.apache.log4j.Level.TRACE) btnTogTrace.setSelected( true);
         else if( Logger.getRootLogger().getLevel() == org.apache.log4j.Level.DEBUG) btnTogDebug.setSelected( true);
@@ -549,8 +549,8 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         theApp.GetCommA2P().stop();
         m_LedsThread.stop();
         
-        m_StorageRepacker.StorageRepackStop();
-        m_LogsStorageRepacker.LogsRepackStop();
+        //m_StorageRepacker.StorageRepackStop();
+        //m_LogsStorageRepacker.LogsRepackStop();
         
         dispose();
     }//GEN-LAST:event_btnExitActionPerformed
