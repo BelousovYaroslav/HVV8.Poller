@@ -5,14 +5,19 @@
  */
 package hvv_poller;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 /**
  *
@@ -48,6 +53,47 @@ public class HVV_PollerSettings {
     private int m_nArcViewerSingleInstanceSocketServerPort;
     public int GetArcViewerSingleInstanceSocketServerPort() { return m_nArcViewerSingleInstanceSocketServerPort;}
     
+    //RW SECTION
+    private int m_nGraphLayout;
+    public int GetGraphLayout() { return m_nGraphLayout;}
+    public void SetGraphLayout( int nLayout) { m_nGraphLayout = nLayout;}
+    
+    private String m_strGraph1Dev;
+    public String GetGraph1Dev() { return m_strGraph1Dev;}
+    public void SetGraph1Dev( String strDev) { m_strGraph1Dev = strDev;}
+    
+    private String m_strGraph1DevParam;
+    public String GetGraph1DevParam() { return m_strGraph1DevParam;}
+    public void SetGraph1DevParam( String strDevParam) { m_strGraph1DevParam = strDevParam;}
+    
+    
+    private String m_strGraph2Dev;
+    public String GetGraph2Dev() { return m_strGraph2Dev;}
+    public void SetGraph2Dev( String strDev) { m_strGraph2Dev = strDev;}
+    
+    private String m_strGraph2DevParam;
+    public String GetGraph2DevParam() { return m_strGraph2DevParam;}
+    public void SetGraph2DevParam( String strDevParam) { m_strGraph2DevParam = strDevParam;}
+    
+    
+    private String m_strGraph3Dev;
+    public String GetGraph3Dev() { return m_strGraph3Dev;}
+    public void SetGraph3Dev( String strDev) { m_strGraph3Dev = strDev;}
+    
+    private String m_strGraph3DevParam;
+    public String GetGraph3DevParam() { return m_strGraph3DevParam;}
+    public void SetGraph3DevParam( String strDevParam) { m_strGraph3DevParam = strDevParam;}
+    
+    
+    private String m_strGraph4Dev;
+    public String GetGraph4Dev() { return m_strGraph4Dev;}
+    public void SetGraph4Dev( String strDev) { m_strGraph4Dev = strDev;}
+    
+    private String m_strGraph4DevParam;
+    public String GetGraph4DevParam() { return m_strGraph4DevParam;}
+    public void SetGraph4DevParam( String strDevParam) { m_strGraph4DevParam = strDevParam;}
+    
+    
     public HVV_PollerSettings( String strAMSRoot) {
         //EMULATOR
         m_strVacuumPartHost = "localhost";
@@ -70,6 +116,13 @@ public class HVV_PollerSettings {
         m_nSingleInstanceSocketServerPort = 10000;
         m_nArcViewerSingleInstanceSocketServerPort = 10005;
         
+        m_nGraphLayout = 0;
+        
+        m_strGraph1Dev = "002"; m_strGraph1Dev = "01";
+        m_strGraph2Dev = "002"; m_strGraph2Dev = "01";
+        m_strGraph3Dev = "002"; m_strGraph3Dev = "01";
+        m_strGraph4Dev = "002"; m_strGraph4Dev = "01";
+        
         ReadSettings();
     }
     
@@ -78,7 +131,7 @@ public class HVV_PollerSettings {
         try {
             SAXReader reader = new SAXReader();
             
-            String strSettingsFilePathName = System.getenv( "AMS_ROOT") + "/etc/settings.poller.xml";
+            String strSettingsFilePathName = System.getenv( "AMS_ROOT") + "/etc/settings.poller.r.xml";
             URL url = ( new java.io.File( strSettingsFilePathName)).toURI().toURL();
             
             Document document = reader.read( url);
@@ -118,6 +171,87 @@ public class HVV_PollerSettings {
             bResOk = false;
         }
         
+        
+        if( bResOk) {
+            try {
+                SAXReader reader = new SAXReader();
+
+                String strSettingsFilePathName = System.getenv( "AMS_ROOT") + "/etc/settings.poller.rw.xml";
+                URL url = ( new java.io.File( strSettingsFilePathName)).toURI().toURL();
+
+                Document document = reader.read( url);
+
+                Element root = document.getRootElement();
+
+                // iterate through child elements of root
+                for ( Iterator i = root.elementIterator(); i.hasNext(); ) {
+                    Element element = ( Element) i.next();
+                    String name = element.getName();
+                    String value = element.getText();
+
+                    //logger.debug( "Pairs: [" + name + " : " + value + "]");
+
+                    if( "nGraphLayout".equals( name)) m_nGraphLayout = Integer.parseInt( value);
+
+                    if( "strGraph1Dev".equals( name)) m_strGraph1Dev = value;
+                    if( "strGraph1DevParam".equals( name)) m_strGraph1DevParam = value;
+                    
+                    if( "strGraph2Dev".equals( name)) m_strGraph2Dev = value;
+                    if( "strGraph2DevParam".equals( name)) m_strGraph2DevParam = value;
+                    
+                    if( "strGraph3Dev".equals( name)) m_strGraph3Dev = value;
+                    if( "strGraph3DevParam".equals( name)) m_strGraph3DevParam = value;
+                    
+                    if( "strGraph4Dev".equals( name)) m_strGraph4Dev = value;
+                    if( "strGraph4DevParam".equals( name)) m_strGraph4DevParam = value;
+
+                }
+
+            } catch( MalformedURLException ex) {
+                logger.error( "MalformedURLException caught while loading settings!", ex);
+                bResOk = false;
+            } catch( DocumentException ex) {
+                logger.error( "DocumentException caught while loading settings!", ex);
+                bResOk = false;
+            }
+        }
         return bResOk;
+    }
+    
+    /**
+     * Функция сохранения настроек в .xml файл
+     */
+    public void SaveSettings() {
+        try {
+            Document document = DocumentHelper.createDocument();
+            Element root = document.addElement( "Settings" );
+            
+            
+            root.addElement( "nGraphLayout").addText( "" + m_nGraphLayout);
+            
+            root.addElement( "strGraph1Dev").addText( m_strGraph1Dev);
+            root.addElement( "strGraph1DevParam").addText( m_strGraph1DevParam);
+            
+            root.addElement( "strGraph2Dev").addText( m_strGraph2Dev);
+            root.addElement( "strGraph2DevParam").addText( m_strGraph2DevParam);
+            
+            root.addElement( "strGraph3Dev").addText( m_strGraph3Dev);
+            root.addElement( "strGraph3DevParam").addText( m_strGraph3DevParam);
+            
+            root.addElement( "strGraph4Dev").addText( m_strGraph4Dev);
+            root.addElement( "strGraph4DevParam").addText( m_strGraph4DevParam);
+            
+            OutputFormat format = OutputFormat.createPrettyPrint();
+            
+            //TODO
+            String strSettingsFilePathName = System.getenv( "AMS_ROOT") + "/etc/settings.poller.rw.xml";
+            
+            XMLWriter writer = new XMLWriter( new FileWriter( strSettingsFilePathName), format);
+            
+            writer.write( document );
+            writer.close();
+        } catch (IOException ex) {
+            logger.error( "IOException caught while saving settings!", ex);
+        }
     }
 }

@@ -21,6 +21,7 @@ import org.apache.log4j.Level;
  */
 public class HVV_Poller_MainFrame extends javax.swing.JFrame {
 
+    public int m_nLayout;
     static Logger logger = Logger.getLogger( HVV_Poller_MainFrame.class);
     
     private final HVV_Poller theApp;
@@ -40,10 +41,10 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     final private DefaultComboBoxModel cmbObjectModelG3;
     final private DefaultComboBoxModel cmbObjectModelG4;
     
-    public String strGraph1Device, strGraph1DeviceParam;
-    public String strGraph2Device, strGraph2DeviceParam;
-    public String strGraph3Device, strGraph3DeviceParam;
-    public String strGraph4Device, strGraph4DeviceParam;
+    public String m_strGraph1Device, m_strGraph1DeviceParam;
+    public String m_strGraph2Device, m_strGraph2DeviceParam;
+    public String m_strGraph3Device, m_strGraph3DeviceParam;
+    public String m_strGraph4Device, m_strGraph4DeviceParam;
     
     
     /**
@@ -52,7 +53,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     public HVV_Poller_MainFrame( HVV_Poller app) {
         initComponents();
         
-        setTitle( "Модуль опроса и накопления данных, v.1.0.0.0, (2017.07.06 16:00)  (C) ФЛАВТ 2017.");
+        setTitle( "Модуль опроса и накопления данных, v.1.0.0.0, (2017.09.04 13:30)  (C) ФЛАВТ 2017.");
         theApp = app;
         
         btnLayout1x1.setText( ""); btnLayout1x1.setIcon( theApp.GetResources().getIconLayout1x1());
@@ -96,6 +97,9 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         else if( Logger.getRootLogger().getLevel() == org.apache.log4j.Level.ERROR) btnTogError.setSelected( true);
         else btnTogFatal.setSelected( true);
         
+        m_nLayout = theApp.GetSettings().GetGraphLayout();
+        if( m_nLayout == 0) setSize( 1100, 200);
+                
         m_panelGraph1 = new PanelGraph( app, app.m_serie1);
         pnlGraph1.add( m_panelGraph1);
         m_panelGraph1.setVisible( true);
@@ -115,6 +119,131 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         pnlGraph4.add( m_panelGraph4);
         m_panelGraph4.setVisible( true);
         m_panelGraph4.setBoundsO( 0, 0, 530, 250);
+        
+        
+        switch( m_nLayout) {
+            case 1:
+                cmbGraph1.setBounds( 10, 200, 1080, 25);
+                pnlGraph1.setBounds( 10, 225, 1080, 540);
+                m_panelGraph1.setBoundsO( 0, 0, 1080, 540);
+
+                cmbGraph2.setVisible( false);
+                pnlGraph2.setVisible( false);
+
+                cmbGraph3.setVisible( false);
+                pnlGraph3.setVisible( false);
+
+                cmbGraph4.setVisible( false);
+                pnlGraph4.setVisible( false);
+            break;
+                
+            case 2:
+                cmbGraph1.setBounds( 10, 200, 1080, 25);
+                pnlGraph1.setBounds( 10, 225, 1080, 250);
+                m_panelGraph1.setBoundsO( 0, 0, 1080, 250);
+
+                cmbGraph2.setVisible( false);
+                pnlGraph2.setVisible( false);
+
+                cmbGraph3.setVisible( true);
+                cmbGraph3.setBounds( 10, 490, 1080, 25);
+                pnlGraph3.setVisible( true);
+                pnlGraph3.setBounds( 10, 515, 1080, 250);
+                m_panelGraph3.setBoundsO( 0, 0, 1080, 250);
+
+                cmbGraph4.setVisible( false);
+                pnlGraph4.setVisible( false);
+            break;
+                
+            case 3:
+                cmbGraph1.setBounds( 10, 200, 530, 25);
+                pnlGraph1.setBounds( 10, 225, 530, 540);
+                m_panelGraph1.setBoundsO( 0, 0, 530, 540);
+
+                cmbGraph2.setVisible( true);
+                cmbGraph2.setBounds( 560, 200, 530, 25);
+                pnlGraph2.setVisible( true);
+                pnlGraph2.setBounds( 560, 225, 530, 540);
+                m_panelGraph2.setBoundsO( 0, 0, 530, 540);
+
+                cmbGraph3.setVisible( false);
+                pnlGraph3.setVisible( false);
+
+                cmbGraph4.setVisible( false);
+                pnlGraph4.setVisible( false);
+            break;
+                
+            case 4:
+                cmbGraph1.setBounds( 10, 200, 530, 25);
+                pnlGraph1.setBounds( 10, 225, 530, 250);
+                m_panelGraph1.setBoundsO( 0, 0, 530, 250);
+
+                cmbGraph2.setVisible( true);
+                cmbGraph2.setBounds( 560, 200, 530, 25);
+                pnlGraph2.setVisible( true);
+                pnlGraph2.setBounds( 560, 225, 530, 250);
+                m_panelGraph2.setBoundsO( 0, 0, 530, 250);
+
+                cmbGraph3.setVisible( true);
+                cmbGraph3.setBounds( 10, 490, 530, 25);
+                pnlGraph3.setVisible( true);
+                pnlGraph3.setBounds( 10, 515, 530, 250);
+                m_panelGraph3.setBoundsO( 0, 0, 530, 250);
+
+                cmbGraph4.setVisible( true);
+                cmbGraph4.setBounds( 560, 490, 530, 25);
+                pnlGraph4.setVisible( true);
+                pnlGraph4.setBounds( 560, 515, 530, 250);
+                m_panelGraph4.setBoundsO( 0, 0, 530, 250);
+            break;
+        }
+        
+        int nList;
+        nList = cmbObjectModelG1.getSize();
+        for( int i=0; i< nList; i++) {
+            String strItem = ( String) cmbObjectModelG1.getElementAt( i);
+            if( strItem.contains( theApp.GetSettings().GetGraph1Dev() + ".")) {
+                if( strItem.contains( "." + theApp.GetSettings().GetGraph1DevParam() + ".")) {
+                    cmbObjectModelG1.setSelectedItem( strItem);
+                    break;
+                }
+            }
+        }
+        
+        nList = cmbObjectModelG2.getSize();
+        for( int i=0; i< nList; i++) {
+            String strItem = ( String) cmbObjectModelG2.getElementAt( i);
+            if( strItem.contains( theApp.GetSettings().GetGraph2Dev() + ".")) {
+                if( strItem.contains( "." + theApp.GetSettings().GetGraph2DevParam() + ".")) {
+                    cmbObjectModelG2.setSelectedItem( strItem);
+                    break;
+                }
+            }
+        }
+        
+        nList = cmbObjectModelG3.getSize();
+        for( int i=0; i< nList; i++) {
+            String strItem = ( String) cmbObjectModelG3.getElementAt( i);
+            if( strItem.contains( theApp.GetSettings().GetGraph3Dev() + ".")) {
+                if( strItem.contains( "." + theApp.GetSettings().GetGraph3DevParam() + ".")) {
+                    cmbObjectModelG3.setSelectedItem( strItem);
+                    break;
+                }
+            }
+        }
+        
+        nList = cmbObjectModelG4.getSize();
+        for( int i=0; i< nList; i++) {
+            String strItem = ( String) cmbObjectModelG4.getElementAt( i);
+            if( strItem.contains( theApp.GetSettings().GetGraph4Dev() + ".")) {
+                if( strItem.contains( "." + theApp.GetSettings().GetGraph4DevParam() + ".")) {
+                    cmbObjectModelG4.setSelectedItem( strItem);
+                    break;
+                }
+            }
+        }
+        
+        
         
         cmbGraph1ActionPerformed( null);
         cmbGraph2ActionPerformed( null);
@@ -175,6 +304,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1100, 200));
         setPreferredSize(new java.awt.Dimension(1100, 800));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         lblLedVac.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -623,6 +757,10 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
 
     private void btnLayout1x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout1x1ActionPerformed
         setSize( 1100, 800);
+
+        m_nLayout = 1;
+        
+        theApp.m_serie1.clear();
         
         cmbGraph1.setBounds( 10, 200, 1080, 25);
         pnlGraph1.setBounds( 10, 225, 1080, 540);
@@ -640,6 +778,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
 
     private void btnLayout1x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout1x2ActionPerformed
         //=
+
+        m_nLayout = 2;
+        
+        theApp.m_serie1.clear();
+        theApp.m_serie3.clear();
         
         setSize( 1100, 800);
         
@@ -662,6 +805,11 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
 
     private void btnLayout2x1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout2x1ActionPerformed
         //||
+
+        m_nLayout = 3;
+        
+        theApp.m_serie1.clear();
+        theApp.m_serie2.clear();
         
         setSize( 1100, 800);
         
@@ -684,6 +832,13 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
 
     private void btnLayout2x2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout2x2ActionPerformed
         setSize( 1100, 800);
+
+        m_nLayout = 4;
+        
+        theApp.m_serie1.clear();
+        theApp.m_serie2.clear();
+        theApp.m_serie3.clear();
+        theApp.m_serie4.clear();
         
         cmbGraph1.setBounds( 10, 200, 530, 25);
         pnlGraph1.setBounds( 10, 225, 530, 250);
@@ -709,6 +864,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLayout2x2ActionPerformed
 
     private void btnLayout0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayout0ActionPerformed
+        m_nLayout = 0;
         
         setSize( 1100, 200);
     }//GEN-LAST:event_btnLayout0ActionPerformed
@@ -722,28 +878,28 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         String [] parts;
         parts = strSelection.split( "\\.");
         
-        strGraph1Device = parts[0];
+        m_strGraph1Device = parts[0];
         
         String strAxisUnit = "";
-        if( Character.isDigit( strGraph1Device.charAt(0))) {
+        if( Character.isDigit(m_strGraph1Device.charAt(0))) {
             //VAC
-            HVV_VacuumDevice dev = ( HVV_VacuumDevice) hvv_devices.HVV_VacuumDevices.getInstance().m_devices.get( strGraph1Device);
+            HVV_VacuumDevice dev = ( HVV_VacuumDevice) hvv_devices.HVV_VacuumDevices.getInstance().m_devices.get(m_strGraph1Device);
             if( dev != null) {
-                String strDeviceParamIndex = parts[2];
+                m_strGraph1DeviceParam = parts[2];
                 if( strSelection.charAt( 0) == '2') {
                     //ОСОБЫЙ СЛУЧАЙ - печки
-                    strDeviceParamIndex = parts[3];
+                    m_strGraph1DeviceParam = parts[3];
                 }
                 
-                strAxisUnit = ( String) dev.m_mapParametersUnits.get( strDeviceParamIndex);
+                strAxisUnit = ( String) dev.m_mapParametersUnits.get( m_strGraph1DeviceParam);
             }
         }
         else {
             //HV
-            HVV_HvDevice dev = ( HVV_HvDevice) hvv_devices.HVV_HvDevices.getInstance().m_devices.get( strGraph1Device);
+            HVV_HvDevice dev = ( HVV_HvDevice) hvv_devices.HVV_HvDevices.getInstance().m_devices.get( m_strGraph1Device);
             if( dev != null) {
-                String strDeviceParamIndex = parts[3];
-                strAxisUnit = ( String) dev.m_mapParametersUnits.get( strDeviceParamIndex);
+                m_strGraph1DeviceParam = parts[3];
+                strAxisUnit = ( String) dev.m_mapParametersUnits.get( m_strGraph1DeviceParam);
             }
         }
         m_panelGraph1.m_chart.getXYPlot().getRangeAxis().setLabel( strAxisUnit);
@@ -758,28 +914,28 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         String [] parts;
         parts = strSelection.split( "\\.");
         
-        strGraph2Device = parts[0];
+        m_strGraph2Device = parts[0];
         
         String strAxisUnit = "";
-        if( Character.isDigit( strGraph2Device.charAt(0))) {
+        if( Character.isDigit(m_strGraph2Device.charAt(0))) {
             //VAC
-            HVV_VacuumDevice dev = ( HVV_VacuumDevice) hvv_devices.HVV_VacuumDevices.getInstance().m_devices.get( strGraph2Device);
+            HVV_VacuumDevice dev = ( HVV_VacuumDevice) hvv_devices.HVV_VacuumDevices.getInstance().m_devices.get(m_strGraph2Device);
             if( dev != null) {
-                String strDeviceParamIndex = parts[2];
+                m_strGraph2DeviceParam = parts[2];
                 if( strSelection.charAt( 0) == '2') {
                     //ОСОБЫЙ СЛУЧАЙ - печки
-                    strDeviceParamIndex = parts[3];
+                    m_strGraph2DeviceParam = parts[3];
                 }
                 
-                strAxisUnit = ( String) dev.m_mapParametersUnits.get( strDeviceParamIndex);
+                strAxisUnit = ( String) dev.m_mapParametersUnits.get( m_strGraph2DeviceParam);
             }
         }
         else {
             //HV
-            HVV_HvDevice dev = ( HVV_HvDevice) hvv_devices.HVV_HvDevices.getInstance().m_devices.get( strGraph2Device);
+            HVV_HvDevice dev = ( HVV_HvDevice) hvv_devices.HVV_HvDevices.getInstance().m_devices.get(m_strGraph2Device);
             if( dev != null) {
-                String strDeviceParamIndex = parts[3];
-                strAxisUnit = ( String) dev.m_mapParametersUnits.get( strDeviceParamIndex);
+                m_strGraph2DeviceParam = parts[3];
+                strAxisUnit = ( String) dev.m_mapParametersUnits.get( m_strGraph2DeviceParam);
             }
         }
         m_panelGraph2.m_chart.getXYPlot().getRangeAxis().setLabel( strAxisUnit);
@@ -794,28 +950,28 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         String [] parts;
         parts = strSelection.split( "\\.");
         
-        strGraph3Device = parts[0];
+        m_strGraph3Device = parts[0];
         
         String strAxisUnit = "";
-        if( Character.isDigit( strGraph3Device.charAt(0))) {
+        if( Character.isDigit(m_strGraph3Device.charAt(0))) {
             //VAC
-            HVV_VacuumDevice dev = ( HVV_VacuumDevice) hvv_devices.HVV_VacuumDevices.getInstance().m_devices.get( strGraph3Device);
+            HVV_VacuumDevice dev = ( HVV_VacuumDevice) hvv_devices.HVV_VacuumDevices.getInstance().m_devices.get(m_strGraph3Device);
             if( dev != null) {
-                String strDeviceParamIndex = parts[2];
+                m_strGraph3DeviceParam = parts[2];
                 if( strSelection.charAt( 0) == '2') {
                     //ОСОБЫЙ СЛУЧАЙ - печки
-                    strDeviceParamIndex = parts[3];
+                    m_strGraph3DeviceParam = parts[3];
                 }
                 
-                strAxisUnit = ( String) dev.m_mapParametersUnits.get( strDeviceParamIndex);
+                strAxisUnit = ( String) dev.m_mapParametersUnits.get( m_strGraph3DeviceParam);
             }
         }
         else {
             //HV
-            HVV_HvDevice dev = ( HVV_HvDevice) hvv_devices.HVV_HvDevices.getInstance().m_devices.get( strGraph3Device);
+            HVV_HvDevice dev = ( HVV_HvDevice) hvv_devices.HVV_HvDevices.getInstance().m_devices.get( m_strGraph3Device);
             if( dev != null) {
-                String strDeviceParamIndex = parts[3];
-                strAxisUnit = ( String) dev.m_mapParametersUnits.get( strDeviceParamIndex);
+                m_strGraph3DeviceParam = parts[3];
+                strAxisUnit = ( String) dev.m_mapParametersUnits.get( m_strGraph3DeviceParam);
             }
         }
         m_panelGraph3.m_chart.getXYPlot().getRangeAxis().setLabel( strAxisUnit);
@@ -830,32 +986,50 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         String [] parts;
         parts = strSelection.split( "\\.");
         
-        strGraph4Device = parts[0];
+        m_strGraph4Device = parts[0];
         
         String strAxisUnit = "";
-        if( Character.isDigit( strGraph4Device.charAt(0))) {
+        if( Character.isDigit(m_strGraph4Device.charAt(0))) {
             //VAC
-            HVV_VacuumDevice dev = ( HVV_VacuumDevice) hvv_devices.HVV_VacuumDevices.getInstance().m_devices.get( strGraph4Device);
+            HVV_VacuumDevice dev = ( HVV_VacuumDevice) hvv_devices.HVV_VacuumDevices.getInstance().m_devices.get(m_strGraph4Device);
             if( dev != null) {
-                String strDeviceParamIndex = parts[2];
+                m_strGraph4DeviceParam = parts[2];
                 if( strSelection.charAt( 0) == '2') {
                     //ОСОБЫЙ СЛУЧАЙ - печки
-                    strDeviceParamIndex = parts[3];
+                    m_strGraph4DeviceParam = parts[3];
                 }
                 
-                strAxisUnit = ( String) dev.m_mapParametersUnits.get( strDeviceParamIndex);
+                strAxisUnit = ( String) dev.m_mapParametersUnits.get( m_strGraph4DeviceParam);
             }
         }
         else {
             //HV
-            HVV_HvDevice dev = ( HVV_HvDevice) hvv_devices.HVV_HvDevices.getInstance().m_devices.get( strGraph4Device);
+            HVV_HvDevice dev = ( HVV_HvDevice) hvv_devices.HVV_HvDevices.getInstance().m_devices.get(m_strGraph4Device);
             if( dev != null) {
-                String strDeviceParamIndex = parts[3];
-                strAxisUnit = ( String) dev.m_mapParametersUnits.get( strDeviceParamIndex);
+                m_strGraph4DeviceParam = parts[3];
+                strAxisUnit = ( String) dev.m_mapParametersUnits.get( m_strGraph4DeviceParam);
             }
         }
         m_panelGraph4.m_chart.getXYPlot().getRangeAxis().setLabel( strAxisUnit);
     }//GEN-LAST:event_cmbGraph4ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        theApp.GetSettings().SetGraphLayout( m_nLayout);
+        
+        theApp.GetSettings().SetGraph1Dev(m_strGraph1Device);
+        theApp.GetSettings().SetGraph1DevParam(m_strGraph1DeviceParam);
+        
+        theApp.GetSettings().SetGraph2Dev(m_strGraph2Device);
+        theApp.GetSettings().SetGraph2DevParam(m_strGraph2DeviceParam);
+        
+        theApp.GetSettings().SetGraph3Dev(m_strGraph3Device);
+        theApp.GetSettings().SetGraph3DevParam(m_strGraph3DeviceParam);
+        
+        theApp.GetSettings().SetGraph4Dev(m_strGraph4Device);
+        theApp.GetSettings().SetGraph4DevParam(m_strGraph4DeviceParam);
+        
+        theApp.GetSettings().SaveSettings();
+    }//GEN-LAST:event_formWindowClosed
 
     
     /**
