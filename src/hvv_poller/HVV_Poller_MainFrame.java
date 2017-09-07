@@ -555,7 +555,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogTrace);
-        btnTogTrace.setBounds(840, 70, 40, 25);
+        btnTogTrace.setBounds(840, 70, 40, 28);
 
         btnGroupLogLevel.add(btnTogDebug);
         btnTogDebug.setText("D");
@@ -565,7 +565,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogDebug);
-        btnTogDebug.setBounds(880, 70, 40, 25);
+        btnTogDebug.setBounds(880, 70, 40, 28);
 
         btnGroupLogLevel.add(btnTogInfo);
         btnTogInfo.setText("I");
@@ -575,7 +575,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogInfo);
-        btnTogInfo.setBounds(920, 70, 40, 25);
+        btnTogInfo.setBounds(920, 70, 40, 28);
 
         btnGroupLogLevel.add(btnTogWarn);
         btnTogWarn.setText("W");
@@ -585,7 +585,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogWarn);
-        btnTogWarn.setBounds(960, 70, 40, 25);
+        btnTogWarn.setBounds(960, 70, 40, 28);
 
         btnGroupLogLevel.add(btnTogFatal);
         btnTogFatal.setText("F");
@@ -595,7 +595,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogFatal);
-        btnTogFatal.setBounds(1040, 70, 40, 25);
+        btnTogFatal.setBounds(1040, 70, 40, 28);
 
         btnGroupLogLevel.add(btnTogError);
         btnTogError.setText("E");
@@ -605,7 +605,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTogError);
-        btnTogError.setBounds(1000, 70, 40, 25);
+        btnTogError.setBounds(1000, 70, 40, 28);
 
         btnLayout1x1.setText("1x1");
         btnLayout1x1.setMaximumSize(new java.awt.Dimension(50, 40));
