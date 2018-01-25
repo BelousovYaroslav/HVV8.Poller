@@ -5,8 +5,6 @@
  */
 package hvv_poller;
 
-import hvv_poller.admin.HVV_Poller_admin;
-import hvv_poller.exec.HVV_Poller_exec;
 import hvv_poller.hv.HVV_Poller_hv;
 import hvv_poller.vac.HVV_Poller_vac;
 import static java.lang.Thread.sleep;
@@ -74,6 +72,7 @@ public class LedsControlThread implements Runnable {
                     theApp.m_pMainWnd.lblLedVac.setIcon( img);
                     theApp.m_pMainWnd.lblLedVac.setText( "");
                     theApp.m_pMainWnd.lblLedVac.setBorder( null);
+                    theApp.m_pMainWnd.lblReconnectionsVac.setText( ""  + theApp.GetPollerVacReconnections());
                 }
                 else {
                     theApp.m_pMainWnd.lblLedVac.setText( "LED");
@@ -101,13 +100,13 @@ public class LedsControlThread implements Runnable {
                     theApp.m_pMainWnd.lblLedHv.setIcon( img);
                     theApp.m_pMainWnd.lblLedHv.setText( "");
                     theApp.m_pMainWnd.lblLedHv.setBorder( null);
+                    theApp.m_pMainWnd.lblReconnectionsHv.setText( "" + theApp.GetPollerHvReconnections());                    
                 }
                 else {
                     theApp.m_pMainWnd.lblLedHv.setText( "LED");
                     theApp.m_pMainWnd.lblLedHv.setBorder( LineBorder.createBlackLineBorder());
                 }
             }
-            
             
             //EXECUTOR
             switch( theApp.GetCommE2P().GetState()) {                
@@ -132,6 +131,7 @@ public class LedsControlThread implements Runnable {
                     theApp.m_pMainWnd.lblLedExecutor.setIcon( img);
                     theApp.m_pMainWnd.lblLedExecutor.setText( "");
                     theApp.m_pMainWnd.lblLedExecutor.setBorder( null);
+                    theApp.m_pMainWnd.lblReconnectionsExe.setText( "" + theApp.GetCommE2P().GetReconnections()); 
                 }
                 else {
                     theApp.m_pMainWnd.lblLedExecutor.setText( "LED");
@@ -162,6 +162,7 @@ public class LedsControlThread implements Runnable {
                     theApp.m_pMainWnd.lblLedAdmin.setIcon( img);
                     theApp.m_pMainWnd.lblLedAdmin.setText( "");
                     theApp.m_pMainWnd.lblLedAdmin.setBorder( null);
+                    theApp.m_pMainWnd.lblReconnectionsAdm.setText( "" + theApp.GetCommA2P().GetReconnections());
                 }
                 else {
                     theApp.m_pMainWnd.lblLedAdmin.setText( "LED");

@@ -190,6 +190,9 @@ public class HVV_Poller_hv implements Runnable {
             else {
                 //мы не подсоединены... подсоединяемся
                 m_nState = STATE_DISCONNECTED;
+                
+                theApp.IncPollerHvReconnections();
+                
                 try {
                     m_rxtx.connect();
                 } catch( Exception ex) {

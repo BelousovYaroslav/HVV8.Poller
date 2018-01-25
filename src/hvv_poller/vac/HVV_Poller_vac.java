@@ -149,6 +149,9 @@ public class HVV_Poller_vac implements Runnable {
             else {
                 //мы не подсоединены... подсоединяемся
                 m_nState = STATE_DISCONNECTED;
+                
+                theApp.IncPollerVacReconnections();
+                
                 try {
                     m_rxtx.connect();
                     m_nRespondTimeOuts = 0;

@@ -6,9 +6,7 @@
 package hvv_poller;
 
 import hvv_poller.admin.HVV_Commmunication_A2P;
-import hvv_poller.admin.HVV_Poller_admin;
 import hvv_poller.exec.HVV_Commmunication_E2P;
-import hvv_poller.exec.HVV_Poller_exec;
 import hvv_poller.hv.HVV_Poller_hv;
 import hvv_poller.storage.HVV_StorageThread;
 import hvv_poller.vac.HVV_Poller_vac;
@@ -20,8 +18,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.jfree.data.time.Millisecond;
@@ -48,9 +44,15 @@ public class HVV_Poller {
     
     private HVV_Poller_vac m_pollerVac;
     public HVV_Poller_vac GetPollerVacThread() { return m_pollerVac; }
+    private int m_nPollerVacReconnections;
+    public int GetPollerVacReconnections() { return m_nPollerVacReconnections;}
+    public void IncPollerVacReconnections() { m_nPollerVacReconnections++;}
     
     private HVV_Poller_hv m_pollerHv;
     public HVV_Poller_hv GetPollerHvThread() { return m_pollerHv; }
+    private int m_nPollerHvReconnections;
+    public int GetPollerHvReconnections() { return m_nPollerHvReconnections;}
+    public void IncPollerHvReconnections() { m_nPollerHvReconnections++;}
     
     /*
     private HVV_Poller_exec m_pollerExec;
@@ -59,15 +61,12 @@ public class HVV_Poller {
     HVV_Commmunication_E2P m_comm_e2p;
     public HVV_Commmunication_E2P GetCommE2P() { return m_comm_e2p; }
     
-    
     /*
     private HVV_Poller_admin m_pollerAdmin;
     public HVV_Poller_admin GetPollerAdminThread() { return m_pollerAdmin; }
     */
     HVV_Commmunication_A2P m_comm_a2p;
     public HVV_Commmunication_A2P GetCommA2P() { return m_comm_a2p; }
-    
-    
     
     private final HVV_Resources m_Resources;
     public HVV_Resources GetResources() { return m_Resources;}
@@ -89,6 +88,9 @@ public class HVV_Poller {
     public HVV_Poller() {
         m_bStartedSuccessfully = false;
         m_strAMSrootEnvVar = System.getenv( "AMS_ROOT");
+        
+        m_nPollerVacReconnections   = -1;
+        m_nPollerHvReconnections    = -1;
         
         m_serie1 = new TimeSeries( "G1", Millisecond.class);
         m_serie2 = new TimeSeries( "G2", Millisecond.class);

@@ -3,33 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hvv_poller.exec;
+package hvv_poller.obsolete;
 
-import hvv_poller.hv.*;
-import hvv_devices.HVV_HvDevice;
-import hvv_devices.HVV_HvDevices;
-import hvv_poller.vac.*;
 import hvv_poller.HVV_Poller;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import static java.lang.Thread.sleep;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
  *
  * @author yaroslav
  */
-public class HVV_Poller_exec implements Runnable {
+public class HVV_Poller_admin implements Runnable {
     HVV_Poller theApp;
-    static Logger logger = Logger.getLogger(HVV_Poller_exec.class);
+    static Logger logger = Logger.getLogger(HVV_Poller_admin.class);
     
     private int m_nState;
     public int GetState() { return m_nState; }
@@ -42,7 +35,7 @@ public class HVV_Poller_exec implements Runnable {
     public Thread m_Thread;
     volatile boolean m_bContinue;
     
-    public HVV_Poller_exec( HVV_Poller app) {
+    public HVV_Poller_admin( HVV_Poller app) {
         theApp = app;
         m_Thread = null;
         m_nState = STATE_DISCONNECTED;
@@ -81,25 +74,26 @@ public class HVV_Poller_exec implements Runnable {
         Socket socket = null;
         Random rnd = new Random();
         
-        ObjectInputStream is = null;
-        ObjectOutputStream os = null;
+        InputStream is = null;
+        ObjectInputStream ois = null;
+        ObjectOutputStream oos = null;
         
         do {
             if( m_nState == STATE_CONNECTED_OK) {
-                if( is != null && os != null) {
+                if( ois != null && oos != null) {
                         
                     try {
                         int nRetCode = 0;
                         double dblRespondValue = 0;
-                        String strReqId = ( String) is.readObject();
+                        
+                        String strReqId = ( String) ois.readObject();
                         logger.trace( "Incoming Request ID:" + strReqId);
                         String strCmd = "";
                         String strObject = "";
                         if( strReqId != null) {
-                            strCmd = ( String) is.readObject();
+                            strCmd = ( String) ois.readObject();
                             
-                            theApp.m_pMainWnd.lblLastActionExecutor.setText( theApp.NiceFormatDateTime( theApp.GetLocalDate()));
-                            
+                            theApp.m_pMainWnd.lblLastActionAdmin.setText( theApp.NiceFormatDateTime( theApp.GetLocalDate()));
                             if( strCmd != null) {
                                 if( strCmd.equals( "PING")) {
                                     logger.trace( strReqId + ": PING: RetCode will be 0.");
@@ -108,7 +102,7 @@ public class HVV_Poller_exec implements Runnable {
                                 else if( strCmd.equals( "GET")) {
                                     logger.debug( strReqId + ": GET");
                                         
-                                    strObject = ( String) is.readObject();
+                                    strObject = ( String) ois.readObject();
                                     if( strObject != null) {
                                             
                                         logger.debug( strReqId + ": GET: " + strObject);
@@ -130,11 +124,11 @@ public class HVV_Poller_exec implements Runnable {
                                 else if( strCmd.equals( "QUIT")) {
                                     logger.info( "'QUIT' processing");
                                     
-                                    try { is.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
-                                    is = null;
+                                    try { ois.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
+                                    ois = null;
                                     
-                                    try { os.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
-                                    os = null;
+                                    try { oos.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
+                                    oos = null;
                                 
                                     if( socket!= null) {
                                         if( !socket.isClosed())
@@ -168,21 +162,21 @@ public class HVV_Poller_exec implements Runnable {
                                       ( strCmd.equals( "PING") ? ". PING" : ". GET '" + strObject+ "'") +
                                       ". RetCode:" + nRetCode + ". RetValue:" + dblRespondValue);
                         
-                        os.writeObject( strReqId);
-                        os.writeInt( nRetCode);
-                        os.writeDouble( dblRespondValue);
-                        os.flush();
+                        oos.writeObject( strReqId);
+                        oos.writeInt( nRetCode);
+                        oos.writeDouble( dblRespondValue);
+                        oos.flush();
                     }
                     catch( IOException ex) {
                         logger.error( "IOException caught", ex);
                         
-                        if( is != null) {
-                            try { is.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
-                            is = null;
+                        if( ois != null) {
+                            try { ois.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
+                            ois = null;
                         }
-                        if( os != null) {
-                            try { os.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
-                            os = null;
+                        if( oos != null) {
+                            try { oos.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
+                            oos = null;
                         }
                         if( socket!= null) {
                             if( !socket.isClosed())
@@ -194,13 +188,13 @@ public class HVV_Poller_exec implements Runnable {
                     catch( Exception ex) {
                         logger.error("Exception caught!", ex);
                         
-                        if( is != null) {
-                            try { is.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
-                            is = null;
+                        if( ois != null) {
+                            try { ois.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
+                            ois = null;
                         }
-                        if( os != null) {
-                            try { os.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
-                            os = null;
+                        if( oos != null) {
+                            try { oos.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
+                            oos = null;
                         }
                         if( socket!= null) {
                             if( !socket.isClosed())
@@ -212,13 +206,13 @@ public class HVV_Poller_exec implements Runnable {
                 }
                 else {
                     logger.error("One or both of streams is (are) null... Reseting connecton!");
-                    if( is != null) {
-                            try { is.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
-                            is = null;
+                    if( ois != null) {
+                            try { ois.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
+                            ois = null;
                         }
-                        if( os != null) {
-                            try { os.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
-                            os = null;
+                        if( oos != null) {
+                            try { oos.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
+                            oos = null;
                         }
                         if( socket!= null) {
                             if( !socket.isClosed())
@@ -231,13 +225,13 @@ public class HVV_Poller_exec implements Runnable {
             else {
                 //Clean up sockets and streams
                 m_nState = STATE_DISCONNECTED;
-                if( is != null) {
-                    try { is.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
-                    is = null;
+                if( ois != null) {
+                    try { ois.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии входящего потока", ex2);}
+                    ois = null;
                 }
-                if( os != null) {
-                    try { os.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
-                    os = null;
+                if( oos != null) {
+                    try { oos.close(); } catch( IOException ex2) { logger.error( "Exception при аварийном закрытии исходящего потока", ex2);}
+                    oos = null;
                 }
                 if( socket!= null) {
                     if( !socket.isClosed())
@@ -251,7 +245,7 @@ public class HVV_Poller_exec implements Runnable {
                 }
                 
                 try {
-                    serverSocket = new ServerSocket( theApp.GetSettings().GetExecutorPartPort());
+                    serverSocket = new ServerSocket( theApp.GetSettings().GetAdminPartPort());
                     serverSocket.setSoTimeout( 10000);
         
                     logger.info( "Waiting for a connection on " + theApp.GetSettings().GetExecutorPartPort());
@@ -259,8 +253,8 @@ public class HVV_Poller_exec implements Runnable {
                     socket = serverSocket.accept();
                     
                     logger.info( "Connection accepted! Creating streams");
-                    os = new ObjectOutputStream( socket.getOutputStream());
-                    is = new ObjectInputStream( socket.getInputStream());
+                    oos = new ObjectOutputStream( socket.getOutputStream());
+                    ois = new ObjectInputStream( socket.getInputStream());
             
                     socket.setKeepAlive( true);
                     socket.setSoLinger( true, 5);
@@ -280,13 +274,13 @@ public class HVV_Poller_exec implements Runnable {
         } while( m_bContinue);
         
         logger.info( "Closing streams");
-        if( is != null) {
-            try { is.close(); } catch( IOException ex2) { logger.error( "Exception при финальном закрытии входящего потока", ex2);}
-            is = null;
+        if( ois != null) {
+            try { ois.close(); } catch( IOException ex2) { logger.error( "Exception при финальном закрытии входящего потока", ex2);}
+            ois = null;
         }
-        if( os != null) {
-            try { os.close(); } catch( IOException ex2) { logger.error( "Exception при финальном закрытии исходящего потока", ex2);}
-            os = null;
+        if( oos != null) {
+            try { oos.close(); } catch( IOException ex2) { logger.error( "Exception при финальном закрытии исходящего потока", ex2);}
+            oos = null;
         }
         if( socket!= null) {
             if( !socket.isClosed())
