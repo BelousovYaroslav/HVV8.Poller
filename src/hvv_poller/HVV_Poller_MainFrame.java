@@ -324,7 +324,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         lblLastActionVac.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLastActionVac.setText("--.--.-- --:--:--");
         getContentPane().add(lblLastActionVac);
-        lblLastActionVac.setBounds(450, 10, 130, 30);
+        lblLastActionVac.setBounds(450, 10, 150, 30);
 
         btnVacuumStop.setText("Стоп");
         btnVacuumStop.addActionListener(new java.awt.event.ActionListener() {
@@ -333,7 +333,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnVacuumStop);
-        btnVacuumStop.setBounds(610, 10, 90, 40);
+        btnVacuumStop.setBounds(640, 10, 90, 40);
 
         btnVacuumRun.setText("Запуск");
         btnVacuumRun.addActionListener(new java.awt.event.ActionListener() {
@@ -342,7 +342,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnVacuumRun);
-        btnVacuumRun.setBounds(700, 10, 90, 40);
+        btnVacuumRun.setBounds(730, 10, 90, 40);
 
         lblLedHv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLedHv.setText("LED");
@@ -357,7 +357,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         lblLastActionHv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLastActionHv.setText("--.--.-- --:--:--");
         getContentPane().add(lblLastActionHv);
-        lblLastActionHv.setBounds(450, 50, 130, 30);
+        lblLastActionHv.setBounds(450, 50, 150, 30);
 
         btnHvStop.setText("Стоп");
         btnHvStop.addActionListener(new java.awt.event.ActionListener() {
@@ -366,7 +366,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnHvStop);
-        btnHvStop.setBounds(610, 50, 90, 40);
+        btnHvStop.setBounds(640, 50, 90, 40);
 
         btnHvRun.setText("Запуск");
         btnHvRun.addActionListener(new java.awt.event.ActionListener() {
@@ -375,7 +375,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnHvRun);
-        btnHvRun.setBounds(700, 50, 90, 40);
+        btnHvRun.setBounds(730, 50, 90, 40);
 
         lblLedExecutor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLedExecutor.setText("LED");
@@ -390,7 +390,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         lblLastActionExecutor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLastActionExecutor.setText("--.--.-- --:--:--");
         getContentPane().add(lblLastActionExecutor);
-        lblLastActionExecutor.setBounds(450, 90, 130, 30);
+        lblLastActionExecutor.setBounds(450, 90, 150, 30);
 
         jButton1.setText("Выход");
         jButton1.setEnabled(false);
@@ -400,7 +400,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(610, 90, 180, 40);
+        jButton1.setBounds(640, 90, 180, 40);
 
         lblLedAdmin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLedAdmin.setText("LED");
@@ -415,7 +415,7 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         lblLastActionAdmin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLastActionAdmin.setText("--.--.-- --:--:--");
         getContentPane().add(lblLastActionAdmin);
-        lblLastActionAdmin.setBounds(450, 130, 130, 30);
+        lblLastActionAdmin.setBounds(450, 130, 150, 30);
 
         cmbGraph1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbGraph1.setMaximumSize(new java.awt.Dimension(530, 25));
@@ -671,25 +671,25 @@ public class HVV_Poller_MainFrame extends javax.swing.JFrame {
         lblReconnectionsAdm.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblReconnectionsAdm.setText("-");
         getContentPane().add(lblReconnectionsAdm);
-        lblReconnectionsAdm.setBounds(580, 130, 20, 30);
+        lblReconnectionsAdm.setBounds(600, 130, 30, 30);
 
         lblReconnectionsVac.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
         lblReconnectionsVac.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblReconnectionsVac.setText("-");
         getContentPane().add(lblReconnectionsVac);
-        lblReconnectionsVac.setBounds(580, 10, 20, 30);
+        lblReconnectionsVac.setBounds(600, 10, 30, 30);
 
         lblReconnectionsHv.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
         lblReconnectionsHv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblReconnectionsHv.setText("-");
         getContentPane().add(lblReconnectionsHv);
-        lblReconnectionsHv.setBounds(580, 50, 20, 30);
+        lblReconnectionsHv.setBounds(600, 50, 30, 30);
 
         lblReconnectionsExe.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
         lblReconnectionsExe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblReconnectionsExe.setText("-");
         getContentPane().add(lblReconnectionsExe);
-        lblReconnectionsExe.setBounds(580, 90, 20, 30);
+        lblReconnectionsExe.setBounds(600, 90, 30, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
