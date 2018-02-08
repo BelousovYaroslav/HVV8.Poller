@@ -104,6 +104,10 @@
         </manifest>
     </target>
     
+    <target name="-post-jar">
+        <delete file="MANIFEST.MF"/>
+    </target>
+    
     <target name="-init-macrodef-java">
         <macrodef name="java" uri="http://www.netbeans.org/ns/j2se-project/1">
             <attribute default="${main.class}" name="classname"/>
